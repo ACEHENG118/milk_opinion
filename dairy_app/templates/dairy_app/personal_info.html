@@ -1,0 +1,61 @@
+{% extends 'dairy_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">我的个人信息</h2>
+
+    <!-- 显示用户当前信息 -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            当前信息
+        </div>
+        <div class="card-body">
+            <p><strong>用户ID:</strong> {{ user.id }}</p>
+            <p><strong>用户名:</strong> {{ user.username }}</p>
+            <p><strong>邮箱:</strong> {{ user.email }}</p>
+            <p><strong>姓 (Last Name):</strong> {{ user.last_name }}</p>
+            <p><strong>名 (First Name):</strong> {{ user.first_name }}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- 更新信息表单 -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            更新信息
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- 显示表单消息 -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="关闭"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">姓 (Last Name)</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">名 (First Name)</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">邮箱 (Email)</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+                </div>
+                <button type="submit" class="btn btn-primary">更新信息</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS (确保在 base.html 中已包含) -->
+{% endblock %}

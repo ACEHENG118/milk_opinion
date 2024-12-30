@@ -1,0 +1,85 @@
+{% extends 'dairy_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <!-- 页面标题 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">评论分析</h2>
+        <!-- 可选：添加一个刷新按钮或其他操作按钮 -->
+        <!-- <a href="#" class="btn btn-secondary">
+            <i class="bi bi-arrow-clockwise"></i> 刷新
+        </a> -->
+    </div>
+
+    <!-- 评论情感统计 -->
+    <div class="row mb-4">
+        <!-- 正面评论数 -->
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi bi-emoji-smile-fill me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5 class="card-title">正面评论数</h5>
+                        <p class="card-text fs-4">{{ positive_count }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 负面评论数 -->
+        <div class="col-md-6">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi bi-emoji-frown-fill me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5 class="card-title">负面评论数</h5>
+                        <p class="card-text fs-4">{{ negative_count }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- 关键词统计 -->
+    <div class="mb-4">
+        <h4 class="text-secondary mb-3">关键词统计（Top10）</h4>
+        {% if keyword_stats %}
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">关键词</th>
+                                <th scope="col">次数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for kw, cnt in keyword_stats %}
+                            <tr>
+                                <td>{{ kw }}</td>
+                                <td>{{ cnt }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            暂无关键词统计数据。
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 可选：添加图表或其他分析内容 -->
+    <!--
+    <div class="mb-4">
+        <h4 class="text-secondary mb-3">情感分布图</h4>
+        <canvas id="sentimentChart" width="400" height="200"></canvas>
+    </div>
+    -->
+</div>
+{% endblock %}

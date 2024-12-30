@@ -1,0 +1,8 @@
+Django==4.2
+mysqlclient==2.1.1
+snownlp==0.12.3
+jieba==0.42.1
+matplotlib==3.7.1
+wordcloud==1.8.2.2
+pillow==9.5.0
+pandas==2.0.3

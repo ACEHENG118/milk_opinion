@@ -1,0 +1,67 @@
+{% extends 'dairy_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <!-- 页面标题与创建新闻按钮 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">新闻列表</h2>
+        <a href="{% url 'news_create' %}" class="btn btn-success d-flex align-items-center">
+            <i class="bi bi-plus-circle me-2"></i> 创建新闻
+        </a>
+    </div>
+
+    <!-- 新闻表格 -->
+    {% if news_list %}
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#ID</th>
+                            <th scope="col">标题</th>
+                            <th scope="col">情感分</th>
+                            <th scope="col">关键词</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in news_list %}
+                        <tr>
+                            <th scope="row">{{ item.id }}</th>
+                            <td>{{ item.screen_name }}</td>
+                            <td>
+                                {% if item.sentiment_score > 0 %}
+                                    <span class="badge bg-success">{{ item.sentiment_score }}</span>
+                                {% elif item.sentiment_score < 0 %}
+                                    <span class="badge bg-danger">{{ item.sentiment_score }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ item.sentiment_score }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ item.keywords }}</td>
+                            <td>
+                                <!-- 编辑按钮 -->
+                                <a href="{% url 'news_edit' item.id %}" class="btn btn-info btn-sm me-2 d-flex align-items-center" title="编辑">
+                                    <i class="bi bi-pencil-square me-1"></i> 编辑
+                                </a>
+                                <!-- 删除按钮 -->
+                                <a href="{% url 'news_delete' item.id %}" class="btn btn-danger btn-sm d-flex align-items-center" title="删除" onclick="return confirm('确定要删除这条新闻吗？');">
+                                    <i class="bi bi-trash me-1"></i> 删除
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- 无新闻时的提示信息 -->
+    <div class="alert alert-warning text-center" role="alert">
+        暂无新闻数据。点击右上方的“创建新闻”按钮添加新新闻。
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>牛奶及乳制品舆情系统</title>
+  
+  <!-- Bootstrap 4.6.2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  
+  <!-- Font Awesome 5.15.4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <!-- 自定义 CSS -->
+  <link href="{% static 'dairy_app/css/styles.css' %}" rel="stylesheet">
+  
+  <style>
+    /* 防止导航栏文本换行 */
+    .navbar-brand, .nav-link, .dropdown-toggle {
+        white-space: nowrap;
+    }
+    /* 自定义消息样式 */
+    .alert {
+        margin-top: 20px;
+    }
+    /* 调整图标与文本的间距 */
+    .nav-link i, .btn i {
+        margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- 合并左侧和右侧导航链接，并实现平均分布 -->
+      <ul class="navbar-nav w-100 d-flex justify-content-around">
+        <!-- 牛奶舆情（原 navbar-brand） -->
+        <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'home' %}">
+            <i class="fas fa-mug-hot"></i> 牛奶舆情
+            {% if request.resolver_match.url_name == 'home' %}
+              <span class="sr-only">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+        <!-- 新闻管理 -->
+        <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'news_list' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'news_list' %}">
+            <i class="fas fa-newspaper"></i> 新闻管理
+            {% if request.resolver_match.url_name == 'news_list' %}
+              <span class="sr-only">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+        <!-- 评论管理 -->
+        <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'comment_list' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'comment_list' %}">
+            <i class="fas fa-comments"></i> 评论管理
+            {% if request.resolver_match.url_name == 'comment_list' %}
+              <span class="sr-only">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+        <!-- 评论分析 -->
+        <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'comment_analysis' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'comment_analysis' %}">
+            <i class="fas fa-chart-line"></i> 评论分析
+            {% if request.resolver_match.url_name == 'comment_analysis' %}
+              <span class="sr-only">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+          <!-- 个人信息 -->
+          <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'personal_info' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'personal_info' %}">
+              <i class="fas fa-user"></i> 个人信息
+              {% if request.resolver_match.url_name == 'personal_info' %}
+                <span class="sr-only">(current)</span>
+              {% endif %}
+            </a>
+          </li>
+          <!-- 修改密码 -->
+          <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'change_password' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'change_password' %}">
+              <i class="fas fa-key"></i> 修改密码
+              {% if request.resolver_match.url_name == 'change_password' %}
+                <span class="sr-only">(current)</span>
+              {% endif %}
+            </a>
+          </li>
+          {% if user.is_superuser %}
+            <!-- 用户管理 -->
+            <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'user_manage' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'user_manage' %}">
+                <i class="fas fa-users-cog"></i> 用户管理
+                {% if request.resolver_match.url_name == 'user_manage' %}
+                  <span class="sr-only">(current)</span>
+                {% endif %}
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+        {% if user.is_authenticated %}
+          <!-- 退出 -->
+          <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'logout' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt"></i> 退出
+              {% if request.resolver_match.url_name == 'logout' %}
+                <span class="sr-only">(current)</span>
+              {% endif %}
+            </a>
+          </li>
+        {% else %}
+          <!-- 登录 -->
+          <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'login' %}">
+              <i class="fas fa-sign-in-alt"></i> 登录
+              {% if request.resolver_match.url_name == 'login' %}
+                <span class="sr-only">(current)</span>
+              {% endif %}
+            </a>
+          </li>
+          <!-- 注册 -->
+          <li class="nav-item flex-fill text-center {% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'register' %}">
+              <i class="fas fa-user-plus"></i> 注册
+              {% if request.resolver_match.url_name == 'register' %}
+                <span class="sr-only">(current)</span>
+              {% endif %}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 主内容 -->
+  <div class="container mt-4">
+    <!-- 消息提示 -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="关闭">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- 页面内容 -->
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- Bootstrap 4.6.2 JS 和依赖（jQuery和Popper.js） -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
+          integrity="sha384-DfXd0fgV8kvClE34A1TgkGfAIBy3KX9uc5t6b99L77tW3Jx3ZJtAdUfIsXnKXg4g" 
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" 
+          integrity="sha384-9/reFTGAW83EW2RDu7mMnyNfUzXWHG2GkKAKHCKP8eOxycBBfhY5t/DbzCjp5IZ7" 
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" 
+          integrity="sha384-+YQ4/5yUgKqZ4Qp3HKA4D11mP5E2EJzYV8rVYvzhbBnjSkDfP6JpoJk12KxvT84S" 
+          crossorigin="anonymous"></script>
+  
+  <!-- 可选：自定义 JS -->
+  <script src="{% static 'dairy_app/js/scripts.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends 'dairy_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white text-center">
+                    <i class="fas fa-newspaper fa-2x"></i>
+                    <h3 class="mt-2">创建新闻</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- 显示表单错误信息 -->
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- 标题/作者输入 -->
+                        <div class="form-group">
+                            <label for="id_screen_name">
+                                <i class="fas fa-user-tag"></i> 标题/作者
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="screen-name-addon">
+                                        <i class="fas fa-user-tag"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="screen_name" class="form-control" id="id_screen_name" placeholder="请输入标题或作者" aria-describedby="screen-name-addon" value="{{ comment.screen_name }}" required>
+                            </div>
+                        </div>
+                        
+                        <!-- 正文输入 -->
+                        <div class="form-group">
+                            <label for="id_text">
+                                <i class="fas fa-pencil-alt"></i> 正文
+                            </label>
+                            <textarea name="text" class="form-control" id="id_text" rows="5" placeholder="请输入新闻内容" required>{{ comment.text }}</textarea>
+                        </div>
+                        
+                        <!-- URL输入 -->
+                        <div class="form-group">
+                            <label for="id_url">
+                                <i class="fas fa-link"></i> URL
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="url-addon">
+                                        <i class="fas fa-link"></i>
+                                    </span>
+                                </div>
+                                <input type="url" name="url" class="form-control" id="id_url" placeholder="请输入新闻链接" aria-describedby="url-addon" value="{{ comment.url }}" required>
+                            </div>
+                        </div>
+                        
+                        <!-- 提交按钮 -->
+                        <button type="submit" class="btn btn-info btn-block">
+                            <i class="fas fa-paper-plane mr-2"></i> 提交
+                        </button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">
+                        <a href="{% url 'news_list' %}" class="btn btn-link p-0">
+                            <i class="fas fa-arrow-left mr-2"></i> 返回新闻列表
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

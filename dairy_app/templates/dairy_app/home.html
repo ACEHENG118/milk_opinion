@@ -1,0 +1,71 @@
+{% extends 'dairy_app/base.html' %}
+{% load static %}
+{% block content %}
+<!-- 欢迎横幅 -->
+<div class="jumbotron p-5 text-white rounded bg-primary mb-4">
+    <div class="container">
+        <h1 class="display-4">欢迎来到「牛奶及乳制品舆情系统」</h1>
+        <p class="lead">通过本系统，您可以实时了解牛奶及乳制品相关的舆情动态、管理新闻与评论，并进行深入的舆情分析。</p>
+        <hr class="my-4">
+        <p>使用导航栏中的选项来探索更多功能。</p>
+        <a class="btn btn-light btn-lg" href="{% url 'news_list' %}" role="button">查看新闻</a>
+        <a class="btn btn-light btn-lg" href="{% url 'comment_list' %}" role="button">查看评论</a>
+    </div>
+</div>
+
+<!-- 介绍卡片 -->
+<div class="container">
+    <div class="row">
+        <!-- 新闻管理 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                
+                <div class="card-body">
+                    <h5 class="card-title">新闻管理</h5>
+                    <p class="card-text">创建、编辑和删除牛奶及乳制品相关的新闻，保持信息的最新和准确。</p>
+                    <a href="{% url 'news_list' %}" class="btn btn-primary">了解更多</a>
+                </div>
+            </div>
+        </div>
+        <!-- 评论管理 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                
+                <div class="card-body">
+                    <h5 class="card-title">评论管理</h5>
+                    <p class="card-text">管理用户评论，确保讨论的质量和相关性，促进健康的舆论环境。</p>
+                    <a href="{% url 'comment_list' %}" class="btn btn-primary">了解更多</a>
+                </div>
+            </div>
+        </div>
+        <!-- 评论分析 -->
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                
+                <div class="card-body">
+                    <h5 class="card-title">评论分析</h5>
+                    <p class="card-text">通过情感分析和关键词提取，深入理解用户反馈和市场趋势。</p>
+                    <a href="{% url 'comment_analysis' %}" class="btn btn-primary">了解更多</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 特色功能 -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">系统特色</h2>
+    <div class="row text-center">
+        <div class="col-md-6">
+            <i class="bi bi-speedometer2" style="font-size: 3rem; color: #0d6efd;"></i>
+            <h4 class="mt-3">实时更新</h4>
+            <p>确保您获取到最新的舆情信息，帮助您及时做出响应。</p>
+        </div>
+        <div class="col-md-6">
+            <i class="bi bi-bar-chart" style="font-size: 3rem; color: #0d6efd;"></i>
+            <h4 class="mt-3">深入分析</h4>
+            <p>利用先进的分析工具，洞察舆情背后的深层次趋势和情感。</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

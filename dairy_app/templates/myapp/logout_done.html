@@ -1,0 +1,27 @@
+{% extends 'dairy_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <!-- 图标 -->
+                    <i class="fas fa-sign-out-alt fa-4x mb-4 text-primary"></i>
+                    
+                    <!-- 标题 -->
+                    <h2 class="card-title">您已成功退出</h2>
+                    
+                    <!-- 描述 -->
+                    <p class="card-text">感谢您的使用，期待您的再次光临。</p>
+                    
+                    <!-- 返回首页按钮 -->
+                    <a href="{% url 'home' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-home mr-2"></i> 返回首页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
